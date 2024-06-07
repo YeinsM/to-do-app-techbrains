@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Runtime data
+pids
+*.pid
+*.seed
+
 # User-specific files
 *.rsuser
 *.suo
@@ -31,6 +36,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
+npm-debug.log*
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -142,6 +149,9 @@ _TeamCity*
 .axoCover/*
 !.axoCover/settings.json
 
+# Coverage directory used by tools like istanbul
+coverage
+
 # Coverlet is a free, cross platform Code Coverage Tool
 coverage*.json
 coverage*.xml
@@ -150,6 +160,18 @@ coverage*.info
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
 
 # NCrunch
 _NCrunch_*
@@ -284,6 +306,14 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+.next
 
 # Visual Studio 6 build log
 *.plg
