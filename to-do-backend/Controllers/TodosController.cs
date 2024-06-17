@@ -1,72 +1,92 @@
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using to_do_backend.Data;
 
-// [ApiController]
-// [Route("api/[controller]")]
-// public class TasksController : ControllerBase
-// {
-//     private readonly TodoDbContext _context;
+[ApiController]
+[Route("api/[controller]")]
+public class TodosController(TodoContext context) : ControllerBase
+{
+    private readonly TodoContext _context = context;
 
-//     public TasksController(TodoDbContext context)
-//     {
-//         _context = context;
-//     }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Todo>>> GetTodos()
+    {
+        return await _context.Todos.ToListAsync();
+    }
 
-//     [HttpGet]
-//     public async Task<ActionResult<IEnumerable<Task>>> GetTasks()
-//     {
-//         return await _context.Tasks.ToListAsync();
-//     }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Todo>> GetTodo(int id)
+    {
+        var todo = await _context.Todos.FindAsync(id);
 
-//     [HttpGet("{id}")]
-//     public async Task<ActionResult<Task>> GetTask(int id)
-//     {
-//         var task = await _context.Tasks.FindAsync(id);
+        if (todo == null)
+        {
+            return NotFound();
+        }
 
-//         if (task == null)
-//         {
-//             return NotFound();
-//         }
+        return todo;
+    }
 
-//         return task;
-//     }
+    [HttpPost]
+    public async Task<ActionResult<Todo>> AddTodo(Todo todo)
+    {
+        todo.CreatedAt = DateTime.Now;
 
-//     [HttpPost]
-//     public async Task<ActionResult<Task>> AddTask(Task task)
-//     {
-//         _context.Tasks.Add(task);
-//         await _context.SaveChangesAsync();
+        _context.Todos.Add(todo);
 
-//         return CreatedAtAction(nameof(GetTask), new { id = task.Id }, task);
-//     }
+        await _context.SaveChangesAsync();
 
-//     [HttpPut("{id}")]
-//     public async Task<IActionResult> UpdateTask(int id, Task task)
-//     {
-//         if (id != task.Id)
-//         {
-//             return BadRequest();
-//         }
+        return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
+    }
 
-//         _context.Entry(task).State = EntityState.Modified;
-//         await _context.SaveChangesAsync();
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTodo(int id, Todo todo)
+    {
+        if (id != todo.Id)
+        {
+            return BadRequest();
+        }
 
-//         return NoContent();
-//     }
+        todo.UpdatedAt = DateTime.Now;
 
-//     [HttpDelete("{id}")]
-//     public async Task<IActionResult> DeleteTask(int id)
-//     {
-//         var task = await _context.Tasks.FindAsync(id);
+        _context.Entry(todo).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
 
-//         if (task == null)
-//         {
-//             return NotFound();
-//         }
+        return NoContent();
+    }
 
-//         _context.Tasks.Remove(task);
-//         await _context.SaveChangesAsync();
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTodo(int id)
+    {
+        var todo = await _context.Todos.FindAsync(id);
 
-//         return NoContent();
-//     }
-// }
+        if (todo == null)
+        {
+            return NotFound();
+        }
+
+        _context.Todos.Remove(todo);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id}/toggle")]
+    public async Task<IActionResult> CompleteTodo(int id)
+    {
+        var todo = await _context.Todos.FindAsync(id);
+
+        if (todo == null)
+        {
+            return NotFound();
+        }
+
+        todo.IsCompleted = !todo.IsCompleted;
+        todo.UpdatedAt = DateTime.Now;
+
+        _context.Entry(todo).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+}
