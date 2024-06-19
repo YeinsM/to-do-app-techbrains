@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Todo } from '../models/todo.model';
 
 const apiClient = axios.create({
-    baseURL: 'https://glorious-tribble-rvwv6gwwx563rpg-5201.app.github.dev/api',
+    baseURL: 'https://turbo-space-dollop-qg6g4q6655529rg-5201.app.github.dev/api',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -11,7 +11,6 @@ const apiClient = axios.create({
 
 export const getTodos = async (): Promise<Todo[]> => {
     const response = await apiClient.get('/todos');
-    console.log(response);
     return response.data;
 };
 
@@ -26,4 +25,8 @@ export const updateTodo = async (id: number, todo: Partial<Todo>): Promise<void>
 
 export const deleteTodo = async (id: number): Promise<void> => {
     await apiClient.delete(`/todois/${id}`);
+};
+
+export const completeTodo = async (id: number, todo: Partial<Todo>): Promise<void> => {
+    await apiClient.patch(`/todos/${id}/toggle`, todo);
 };
