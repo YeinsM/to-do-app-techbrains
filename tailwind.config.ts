@@ -8,9 +8,15 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
-  plugins: [
-    require("flowbite/plugin")
-  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["SSSRegular", "sans-serif"],
+        medium: ["SSSMedium", "sans-serif"],
+        bold: ["SSSBold", "sans-serif"],
+      },
+    },
+  },
+  plugins: [require("flowbite/plugin")],
 };
 export default config;

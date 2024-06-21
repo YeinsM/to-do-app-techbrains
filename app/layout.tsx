@@ -1,8 +1,8 @@
 "use client";
 
 // components/RootLayout.tsx
-import React, { useEffect } from 'react';
-import './globals.css';
+import React, { useEffect } from "react";
+import "./globals.css";
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -10,38 +10,42 @@ import './globals.css';
 // };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const classList = document.documentElement.classList;
+	useEffect(() => {
+		const darkModeMediaQuery = window.matchMedia(
+			"(prefers-color-scheme: dark)"
+		);
+		const classList = document.documentElement.classList;
 
-    const handleChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        classList.add('dark');
-      } else {
-        classList.remove('dark');
-      }
-    };
+		const handleChange = (event: MediaQueryListEvent) => {
+			if (event.matches) {
+				classList.add("dark");
+			} else {
+				classList.remove("dark");
+			}
+		};
 
-    if (darkModeMediaQuery.matches) {
-      classList.add('dark');
-    } else {
-      classList.remove('dark');
-    }
+		if (darkModeMediaQuery.matches) {
+			classList.add("dark");
+		} else {
+			classList.remove("dark");
+		}
 
-    darkModeMediaQuery.addEventListener('change', handleChange);
+		darkModeMediaQuery.addEventListener("change", handleChange);
 
-    return () => {
-      darkModeMediaQuery.removeEventListener('change', handleChange);
-    };
-  }, []);
+		return () => {
+			darkModeMediaQuery.removeEventListener("change", handleChange);
+		};
+	}, []);
 
-  return (
-    <html lang="en">
-      <body className='bg-white dark:bg-gray-900 text-gray-900 dark:text-white'>{children}</body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+				{children}
+			</body>
+		</html>
+	);
 }

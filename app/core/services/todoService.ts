@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Todo } from '../models/todo.model';
 
 const apiClient = axios.create({
-    baseURL: 'https://turbo-space-dollop-qg6g4q6655529rg-5201.app.github.dev/api',
+    baseURL: 'http://localhost:5201/api',
     headers: {
         'Content-Type': 'application/json'
     }
