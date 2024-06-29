@@ -6,13 +6,22 @@ import {
 	createTodo,
 	deleteTodo,
 	getTodos,
-	updateTodo,
+	// updateTodo,
 } from "../core/services/todoService";
 import Card from "./Card";
 
 const TodoList = () => {
 	const [todos, setTodos] = useState<Todo[]>([]);
 	const [newTodo, setNewTodo] = useState<string>("");
+
+	const formatDate = (date: Date) => {
+		const options: Intl.DateTimeFormatOptions = {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		};
+		return date.toLocaleDateString(undefined, options);
+	};
 
 	useEffect(() => {
 		fetchTodos();
@@ -68,9 +77,17 @@ const TodoList = () => {
 			/>
 			<ul role="list">
 				{todos.map((todo) => (
-					<li className="flex justify-between gap-x-6 py-5" key={todo.id}>
+					<li
+						className="flex justify-between gap-x-6 py-5"
+						key={todo.id}>
 						<Card
-							title={"Task " + todo.id}
+							title={
+								<>
+									Task Created on:
+									<br />
+									{formatDate(new Date(todo.createdOn!))}
+								</>
+							}
 							description={todo.name}
 							aditionalProp={
 								todo.isCompleted ? "Completed" : "Not Completed"
@@ -82,6 +99,8 @@ const TodoList = () => {
 									!todo.isCompleted
 								)
 							}
+							// onEdit={() => handleEditTodo(todo.id!)}
+							onDelete={() => handleDeleteTodo(todo.id!)}
 						/>
 					</li>
 				))}

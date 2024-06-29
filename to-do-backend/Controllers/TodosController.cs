@@ -30,7 +30,7 @@ public class TodosController(TodoContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Todo>> AddTodo(Todo todo)
     {
-        todo.CreatedAt = DateTime.Now;
+        todo.CreatedOn = DateTime.Now;
 
         _context.Todos.Add(todo);
 
@@ -47,7 +47,7 @@ public class TodosController(TodoContext context) : ControllerBase
             return BadRequest();
         }
 
-        todo.UpdatedAt = DateTime.Now;
+        todo.UpdatedOn = DateTime.Now;
 
         _context.Entry(todo).State = EntityState.Modified;
         await _context.SaveChangesAsync();
@@ -82,7 +82,7 @@ public class TodosController(TodoContext context) : ControllerBase
         }
 
         todo.IsCompleted = !todo.IsCompleted;
-        todo.UpdatedAt = DateTime.Now;
+        todo.UpdatedOn = DateTime.Now;
 
         _context.Entry(todo).State = EntityState.Modified;
         await _context.SaveChangesAsync();

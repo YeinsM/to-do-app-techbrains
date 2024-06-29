@@ -19,12 +19,12 @@ export const createTodo = async (todo: Todo): Promise<Todo> => {
     return response.data;
 };
 
-export const updateTodo = async (id: number, todo: Partial<Todo>): Promise<void> => {
-    await apiClient.put(`/todos/${id}`, todo);
-};
+// export const updateTodo = async (id: number, todo: Partial<Todo>): Promise<void> => {
+//     await apiClient.put(`/todos/${id}`, todo);
+// };
 
 export const deleteTodo = async (id: number): Promise<void> => {
-    await apiClient.delete(`/todois/${id}`);
+    await apiClient.delete(`/todos/${id}`);
 };
 
 export const completeTodo = async (id: number, todo: Partial<Todo>): Promise<void> => {
